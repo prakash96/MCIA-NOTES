@@ -83,11 +83,11 @@
  - Business groups provide more fine-grained control over access to resources.
  - Because business groups are hierarchical, the owner of a parent business group automatically has and retains administrator permissions for any child business group of that parent, even it they make another Organization Administrator user owner of a child business group.
 
-Conversely, owners of child business groups cannot:
+   Conversely, owners of child business groups cannot:
 
-Access or modify the parent business group or root organization settings
+   Access or modify the parent business group or root organization settings
 
-View the parent business group’s client ID and client secret
+   View the parent business group’s client ID and client secret
 
 - Allocating redistributable resources to a business group makes those resources available only to that business group, which makes them unavailable to the parent organization.
 - Users who are assigned the Organization Administrator permission at any level are automatically assigned that same role in any child business group created within that level, so are automatically visible in the child. This does not apply retroactively to users who are assigned the Organization Administrator permission after a child is created.
