@@ -181,3 +181,7 @@ The internal load balancer runs on the controller VMs of Runtime Fabric. Configu
   Anypoint MQ supports payloads up to 10 MB.
 
   If the payload contains any format except text (such as CSV, HTML, JSON, and XML), Anypoint MQ converts it to a string before sending, which increases the payload size. This conversion might result in the payload exceeding the maximum payload size of 10 MB and causing a Payload too large error. 
+
+## Anypoint Platform Access FAQs
+ To request access to an API that belongs to a different organization, you need to have an Anypoint Platform account for that organization.
+ The Permissions tab doesn’t display any users with permissions based on a custom role because roles can’t be managed from API Version Details pages. Contact your Organization Administrator for information about role-based permissions to your API version.
