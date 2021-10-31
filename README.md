@@ -125,5 +125,59 @@
  In case of Bounded Context, In the ideal instance, each API establishes its own API data model. Put differently, every API is in a separate Bounded Context with its own Bounded Context Data Model. 
  
  
+## Runtime Fabric
+
+ Agents can run on any controller. Agent communication is always outbound.
+
+ The minimum requirements are 3 controller and 3 worker nodes. 3 controllers enable a fault-tolerance of losing 1 controller. To improve fault-tolerance to lose 2 controllers, a total of 5 controllers should be configured.
+
+ Mule applications run on workers. Multiple replicas of applications can run across workers.
  
+![alt text](https://docs.mulesoft.com/runtime-fabric/1.7/_images/architecture-production.png)
+
+Controller Nodes
+ - The maximum number of controller nodes supported is 5.
+
+Worker Nodes
+ - The maximum number of worker nodes supported is 16.
+
+Replicas Per Worker Node
+ - The maximum number of replicas that can be deployed per worker node is 40.
+
+Run no more than 20 - 25 replicas per core, up to a maximum of 40 replicas per node, to allow core sharing across replicas when needed for bursting. This ensures the Runtime Fabric’s internal components that run on each worker node are not overloaded by too many replicas.
+
+Associated Environments per Runtime Fabric
+ - The maximum number of environments per Runtime Fabric is 50.
+
+Business Groups
+ - The maximum number of Runtime Fabrics you can create in a business group is 50.
+
+Object Store Persistence
+ - Object Store Persistence is not currently supported for Runtime Fabric clusters.
+
+Internal Load Balancer
+ - The following table lists the approximate number of requests (averaging 10 KB) that can be served with a single replica of the internal load balancer based on   the number of CPU cores. This information is based on the performance test results as described in Resource Allocation and Performance on Anypoint Runtime Fabric.
+
+The internal load balancer runs on the controller VMs of Runtime Fabric. Configure the VM size based on the amount and type of inbound traffic. You can allocate only half of the available CPU cores on each VM to the internal load balancer. 
+
+## High Availability Versus Disaster Recovery
+ High availability (HA) - The measure of a system’s ability to remain accessible in the event of a system component failure. Generally, HA is implemented by  building in multiple levels of fault tolerance and/or load balancing capabilities into a system.
+
+ Disaster recovery (DR) - The process by which a system is restored to a previous acceptable state, after a natural (flooding, tornadoes, earthquakes, fires, etc.) or man-made (power failures, server failures, misconfigurations, etc.) disaster.
+
+ While they both increase overall availability, the notable difference is that with HA there is generally no loss of service. HA retains the service and DR retains the data, but with DR, there is usually a slight loss of service while the DR plan executes and the system restores.
  
+## FAQ: Anypoint MQ
+ ### How can I send a Java Object as a message?
+    The body of an Anypoint MQ message is sent as a string as part of a JSON message, thus any content that needs to be published should be serializable in a  string format from which you can later deserialize. One way to do this is to serialize the Java object to its JSON representation using DataWeave, which can be serialized and deserialized from a string. Sending Java objects that don’t have a proper string serialization causes the message to be unreadable on the receiving end.
+ ### Can I share messages or queues between regions?
+   No, queues and message exchanges are unique to the region in which they were created and cannot share messages or queues between regions. Developers can manually create custom programs that load balance between regions, but Anypoint MQ itself does not provide multi-region support.
+ The queues in each region are separate from those in other regions. You can name queues the same in each region, but queues can’t share messages across regions.
+ 
+ ### In what order are messages in a standard (non-FIFO) queue?
+  Standard queues attempt to preserve the order of messages, but strict order is not guaranteed. Because standard queues are designed to be scalable and distributed, they can’t guarantee that messages are received in the same order that they are sent. If message order is important, use a FIFO queue or set Anypoint MQ Connector to the Consume operation.
+  
+ ### Can messages be larger than 10 MB?
+  Anypoint MQ supports payloads up to 10 MB.
+
+  If the payload contains any format except text (such as CSV, HTML, JSON, and XML), Anypoint MQ converts it to a string before sending, which increases the payload size. This conversion might result in the payload exceeding the maximum payload size of 10 MB and causing a Payload too large error. 
