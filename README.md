@@ -92,3 +92,29 @@
 - Allocating redistributable resources to a business group makes those resources available only to that business group, which makes them unavailable to the parent organization.
 - Users who are assigned the Organization Administrator permission at any level are automatically assigned that same role in any child business group created within that level, so are automatically visible in the child. This does not apply retroactively to users who are assigned the Organization Administrator permission after a child is created.
 - All users, regardless of which business groups they are in, belong to the root organization.
+
+## HA Clusture
+ ### Prerequisites
+  Keep the ports configured for the Mule cluster open.
+  If you configure your cluster through Runtime Manager and you use the default ports, keep TCP ports 5701, 5702, and 5703 open.
+  If you configure custom ports instead, keep the custom ports open.
+  Ensure communication between nodes is open through port 5701.
+  Verify the firewall rules in your network to ensure that two-way communication between nodes is enabled.
+  If you enable multicast for your cluster, the following requirements also apply in addition to the previous prerequisites:
+
+   - Keep UDP port 54327 open.
+
+   - Enable the multicast IP address: 224.2.2.3.
+  There are a number of recommended practices related to clustering. These include:
+
+   - As much as possible, organize your application into a series of steps where each step moves the message from one transactional store to another.
+
+   - If your application processes messages from a non-transactional connector, use a reliability pattern to move them to a transactional store such as a VM or JMS store.
+
+   - Use transactions to process messages from a transactional connector. This ensures that if an error is encountered, the message reprocesses.
+
+   - Use distributed stores such as those used with the VM or JMS connector – these stores are available to an entire cluster. This is preferable to the non-distributed stores used with connectors such as File, FTP, and JDBC – these stores are read by a single node at a time.
+
+   - Use the VM connector to get optimal performance. Use the JMS connector for applications where data needs to be saved after the entire cluster exits.
+
+   Implement reliability patterns to create high reliability applications.
