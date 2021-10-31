@@ -118,3 +118,12 @@
    - Use the VM connector to get optimal performance. Use the JMS connector for applications where data needs to be saved after the entire cluster exits.
 
    Implement reliability patterns to create high reliability applications.
+   
+## Enterprise vs Bounded Context Data Model
+ Usually, the Enterprise Data Model is described as the Canonical Data Model, but for our purposes, we'll use the former term. There is exactly one canonical definition of each data type, which is reused in all APIs that require that data type, within all of the request-response actions in the product. An example of its application is booking software in resorts for the room, guest house, and playground.
+ 
+ In case of Bounded Context, In the ideal instance, each API establishes its own API data model. Put differently, every API is in a separate Bounded Context with its own Bounded Context Data Model. 
+ 
+ 
+ 
+ 
